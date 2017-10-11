@@ -1,0 +1,40 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="well">
+                <h3>Online Users</h3>
+                <ul class="list-group" id="users"></ul>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="chat" id="chat"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <input type="text" id="message" placeholder="Type your text here...">
+            <input type="submit" id="sendBtn" class="btn btn-primary" value="send">
+        </div>
+    </div>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+    $(function(){
+        var socket = io.connect();
+        var $message = $('#message');
+        var $sendBtn = $('#sendBtn');
+        var $chat = $('#chat');
+
+        $sendBtn.click(function(e){
+            e.preventDefault();
+            socket.emit('send message', $message.val());
+            $message.val('');
+        });
+
+        socket.on('new message', function(data){
+            console.log(1);
+            $chat.append('<div class="well">'+ data.msg +'</div>');
+        });
+    });
+</script>
