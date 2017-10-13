@@ -76,6 +76,7 @@ app.use(function (req, res, next) {
 
 var http = require('http').Server(app);
 io = require('socket.io')(http);
+index.socketio(io);
 
 app.use('/', index.router);
 app.use('/users', users);
@@ -83,7 +84,7 @@ app.use('/users', users);
 // Set Port
 app.set('port', (process.env.PORT || 3000));
 
-io.on('connection', index.io);
+// io.on('connection', index.io);
 
 http.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
